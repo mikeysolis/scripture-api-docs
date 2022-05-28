@@ -2,10 +2,9 @@
 title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
-  - ruby
-  - python
   - javascript
+  - php
+  - python
 
 toc_footers:
   - <a href='#'>Check out our demos</a>
@@ -25,50 +24,136 @@ meta:
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Scripture API. A fun little project I built to power the backend for a suite of mobile apps I'm creating. The API consists of the 'Standard' scripture library found in the Church of Jesus Christ of Latter-Day Saints. This includes the Old and New Testament from the King James version of the Bible, the Book of Mormon, Doctrine & Covenants and Pearl of Great Price.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+These records are all part of the [public domain](https://en.wikipedia.org/wiki/Public_domain) and as such do not include the Topical Guide, Bible Dictionary, chapter headers, indexes, references and other content created later.
 
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
+The API conforms to the JsonApi standard. Some feel the JsonApi standard is overly verbose and difficult to understand but I feel the predictability and flexibility it provides is well worth it here. This is an API that I may open up to others in the future and predictability and flexibility will be a great benefit to developers.
+
+The data for this API comes from the [LDS Documentation Project](https://scriptures.nephi.org/).
 
 # Authentication
 
 > To authorize, use this code:
 
-```ruby
-require 'kittn'
+```javascript
+// Using the native Fetch API
+fetch('url_goes_here', {
+  headers: {
+    'Authorization': 'Bearer <api_key>',
+  },
+})
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+// Using the Axios package
+axios.create({
+  headers: {
+    'Authorization': 'Bearer <api_key>',
+  }
+})
+```
+
+```php
+// Using native PHP
+$curl = curl_init('url_goes_here');
+
+$header = array(
+  "Authorization: Bearer <api_key>",
+)
+
+curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+$resp = curl_exec($curl);
+
+// Using Laravel
+$response = $client->request('GET', 'url_goes_here', [
+    'headers' => [
+        'Authorization' => 'Bearer <api_key>',
+    ],
+]);
 ```
 
 ```python
-import kittn
+import requests
 
-api = kittn.authorize('meowmeowmeow')
+headers = {"Authorization": "Bearer <api_key>"}
+
+reponse = requests.get('url_goes_here', headers=headers)
 ```
 
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here" \
-  -H "Authorization: meowmeowmeow"
-```
+> Replace < api_key > with your actual Key. We recommend retreiving it from the environment.
 
-```javascript
-const kittn = require('kittn');
+The Scripture API uses Keys to allow access. At this time API keys are not available to the public, however this may change in the future.
 
-let api = kittn.authorize('meowmeowmeow');
-```
+Scripture Api expects the API key to be included in all API requests to the server in a header that looks like the following:
 
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
+`Authorization: Bearer <api_key>`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>&ltapi_key&gt</code> with your actual API key.
+</aside>
+
+#Headers
+
+> When sending requests, use the Accept header:
+
+```javascript
+// Using the native Fetch API
+fetch('url_goes_here', {
+  headers: {
+    'Authorization': 'Bearer <api_key>',
+    'Accept': 'application/vnd.api+json',
+  },
+})
+
+// Using the Axios package
+axios.create({
+  headers: {
+    'Authorization': 'Bearer <api_key>',
+    'Accept': 'application/vnd.api+json',
+  }
+})
+```
+
+```php
+// Using native PHP
+$curl = curl_init('url_goes_here');
+
+$header = array(
+  "Authorization: Bearer <api_key>",
+  "Accept: application/vnd.api+json",
+)
+
+curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+$resp = curl_exec($curl);
+
+// Using Laravel
+$response = $client->request('GET', 'url_goes_here', [
+    'headers' => [
+        'Authorization' => 'Bearer <api_key>',
+        'Accept' => 'application/vnd.api+json',
+    ],
+]);
+```
+
+```python
+import requests
+
+headers = CaseInsensitiveDict()
+headers["Authorization"] = "Bearer <api_key>"
+headers["Accept"] = "application/vnd.api+json"
+
+reponse = requests.get('url_goes_here', headers=headers)
+```
+
+> These examples show the Authorization and Accept headers together.
+
+The Scripture API adheres to the JsonAPI format. As such, you must send the correct headers with each request.
+
+To do this simply add the 'Accept' header to the request. The header must look like the following:
+
+`Accept: application/vnd.api+json`
+
+<aside class="notice">
+This is easily done alongside the Authorization header mentioned in the previous section.
 </aside>
 
 # Kittens
