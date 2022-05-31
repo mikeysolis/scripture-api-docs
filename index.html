@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <meta
             name="description"
-            content="Documentation for the Kittn API"
+            content="Documentation for the Scripture API"
         >
     <title>API Reference</title>
 
@@ -295,7 +295,7 @@
     </script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+  <body class="index" data-languages="[&quot;javascript&quot;,&quot;php&quot;,&quot;python&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -305,10 +305,9 @@
     <div class="toc-wrapper">
       <img src="images/logo-1e815a84.png" class="logo" alt="" />
         <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="ruby">ruby</a>
-              <a href="#" data-language-name="python">python</a>
               <a href="#" data-language-name="javascript">javascript</a>
+              <a href="#" data-language-name="php">php</a>
+              <a href="#" data-language-name="python">python</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -322,16 +321,16 @@
             <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
           </li>
           <li>
-            <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
+            <a href="#headers" class="toc-h1 toc-link" data-title="Headers">Headers</a>
+          </li>
+          <li>
+            <a href="#volumes" class="toc-h1 toc-link" data-title="Volumes">Volumes</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-kittens" class="toc-h2 toc-link" data-title="Get All Kittens">Get All Kittens</a>
+                    <a href="#get-all-volumes" class="toc-h2 toc-link" data-title="Get All Volumes">Get All Volumes</a>
                   </li>
                   <li>
-                    <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="Get a Specific Kitten">Get a Specific Kitten</a>
-                  </li>
-                  <li>
-                    <a href="#delete-a-specific-kitten" class="toc-h2 toc-link" data-title="Delete a Specific Kitten">Delete a Specific Kitten</a>
+                    <a href="#get-a-specific-volume" class="toc-h2 toc-link" data-title="Get a Specific Volume">Get a Specific Volume</a>
                   </li>
               </ul>
           </li>
@@ -340,7 +339,7 @@
           </li>
       </ul>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
+            <li><a href='#'>Check out our demos</a></li>
             <li><a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a></li>
         </ul>
     </div>
@@ -348,80 +347,213 @@
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+<p>Welcome to the Scripture API. A fun little project I built to power the backend for a suite of mobile apps I&#39;m creating. The API consists of the &#39;Standard&#39; scripture library found in the Church of Jesus Christ of Latter-Day Saints. This includes the Old and New Testament from the King James version of the Bible, the Book of Mormon, Doctrine &amp; Covenants and Pearl of Great Price.</p>
 
-<p>We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<p>These records are all part of the <a href="https://en.wikipedia.org/wiki/Public_domain">public domain</a> and as such do not include the Topical Guide, Bible Dictionary, chapter headers, indexes, references and other content created later.</p>
 
-<p>This example API documentation page was created with <a href="https://github.com/slatedocs/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&#39;s documentation.</p>
+<p>The API conforms to the JsonApi standard. Some feel the JsonApi standard is overly verbose and difficult to understand but I feel the predictability and flexibility it provides is well worth it here. This is an API that I may open up to others in the future and predictability and flexibility will be a great benefit to developers.</p>
+
+<p>The data for this API comes from the <a href="https://scriptures.nephi.org/">LDS Documentation Project</a>.</p>
 <h1 id='authentication'>Authentication</h1>
 <blockquote>
 <p>To authorize, use this code:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="c1">// Using the native Fetch API</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="dl">'</span><span class="s1">url_goes_here</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">'</span><span class="s1">Authorization</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Bearer &lt;api_key&gt;</span><span class="dl">'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">})</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<span class="c1">// Using the Axios package</span>
+<span class="nx">axios</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">'</span><span class="s1">Authorization</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Bearer &lt;api_key&gt;</span><span class="dl">'</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="c1">// Using native PHP</span>
+<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="s1">'url_goes_here'</span><span class="p">);</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span> <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">kittn</span><span class="dl">'</span><span class="p">);</span>
+<span class="nv">$header</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s2">"Authorization: Bearer &lt;api_key&gt;"</span><span class="p">,</span>
+<span class="p">)</span>
 
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">);</span>
+<span class="nv">$resp</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+
+<span class="c1">// Using Laravel</span>
+<span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">request</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="s1">'url_goes_here'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'headers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'Authorization'</span> <span class="o">=&gt;</span> <span class="s1">'Bearer &lt;api_key&gt;'</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">]);</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Authorization"</span><span class="p">:</span> <span class="s">"Bearer &lt;api_key&gt;"</span><span class="p">}</span>
+
+<span class="n">reponse</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'url_goes_here'</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
 </code></pre></div>
 <blockquote>
-<p>Make sure to replace <code>meowmeowmeow</code> with your API key.</p>
+<p>Replace &lt; api_key &gt; with your actual Key. We recommend retreiving it from the environment.</p>
 </blockquote>
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
+<p>The Scripture API uses Keys to allow access. At this time API keys are not available to the public, however this may change in the future.</p>
 
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
+<p>Scripture Api expects the API key to be included in all API requests to the server in a header that looks like the following:</p>
 
-<p><code>Authorization: meowmeowmeow</code></p>
+<p><code>Authorization: Bearer &lt;api_key&gt;</code></p>
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>&ltapi_key&gt</code> with your actual API key.
 </aside>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<h1 id='headers'>Headers</h1>
+<blockquote>
+<p>When sending requests, use the Accept header:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="c1">// Using the native Fetch API</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="dl">'</span><span class="s1">url_goes_here</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">'</span><span class="s1">Authorization</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Bearer &lt;api_key&gt;</span><span class="dl">'</span><span class="p">,</span>
+    <span class="dl">'</span><span class="s1">Accept</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/vnd.api+json</span><span class="dl">'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">})</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<span class="c1">// Using the Axios package</span>
+<span class="nx">axios</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">'</span><span class="s1">Authorization</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Bearer &lt;api_key&gt;</span><span class="dl">'</span><span class="p">,</span>
+    <span class="dl">'</span><span class="s1">Accept</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/vnd.api+json</span><span class="dl">'</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="c1">// Using native PHP</span>
+<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="s1">'url_goes_here'</span><span class="p">);</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="n">kittens</span><span class="p">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span> <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">kittn</span><span class="dl">'</span><span class="p">);</span>
+<span class="nv">$header</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s2">"Authorization: Bearer &lt;api_key&gt;"</span><span class="p">,</span>
+  <span class="s2">"Accept: application/vnd.api+json"</span><span class="p">,</span>
+<span class="p">)</span>
 
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="kd">get</span><span class="p">();</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">);</span>
+<span class="nv">$resp</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+
+<span class="c1">// Using Laravel</span>
+<span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">request</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="s1">'url_goes_here'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'headers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'Authorization'</span> <span class="o">=&gt;</span> <span class="s1">'Bearer &lt;api_key&gt;'</span><span class="p">,</span>
+        <span class="s1">'Accept'</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.api+json'</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">]);</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="n">CaseInsensitiveDict</span><span class="p">()</span>
+<span class="n">headers</span><span class="p">[</span><span class="s">"Authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"Bearer &lt;api_key&gt;"</span>
+<span class="n">headers</span><span class="p">[</span><span class="s">"Accept"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"application/vnd.api+json"</span>
+
+<span class="n">reponse</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'url_goes_here'</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>These examples show the Authorization and Accept headers together.</p>
+</blockquote>
+
+<p>The Scripture API adheres to the JsonAPI format. As such, you must send the correct headers with each request.</p>
+
+<p>To do this simply add the &#39;Accept&#39; header to the request. The header must look like the following:</p>
+
+<p><code>Accept: application/vnd.api+json</code></p>
+
+<aside class="notice">
+This is easily done alongside the Authorization header mentioned in the previous section.
+</aside>
+<h1 id='volumes'>Volumes</h1><h2 id='get-all-volumes'>Get All Volumes</h2>
+<blockquote>
+<p>A basic request with no query parameters</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="c1">// Using the native Fetch API</span>
+<span class="kd">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://example.com/api/v1/volumes</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">GET</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">'</span><span class="s1">Authorization</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Bearer &lt;api_key&gt;</span><span class="dl">'</span><span class="p">,</span>
+    <span class="dl">'</span><span class="s1">Accept</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/vnd.api+json</span><span class="dl">'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">})</span>
+
+<span class="c1">// Using the Axios package</span>
+<span class="kd">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://example.com/api/v1/volumes</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="c1">// Using native PHP</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s1">'http://example.com/api/v1/volumes'</span><span class="p">;</span>
+<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+
+<span class="nv">$header</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s2">"Authorization: Bearer &lt;api_key&gt;"</span><span class="p">,</span>
+  <span class="s2">"Accept: application/vnd.api+json"</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">);</span>
+<span class="nv">$resp</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+
+<span class="c1">// Using Laravel</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s1">'http://example.com/api/v1/volumes'</span><span class="p">;</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">request</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'headers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'Authorization'</span> <span class="o">=&gt;</span> <span class="s1">'Bearer &lt;api_key&gt;'</span><span class="p">,</span>
+        <span class="s1">'Accept'</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.api+json'</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">]);</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://example.com/api/v1/volumes'</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="n">CaseInsensitiveDict</span><span class="p">()</span>
+<span class="n">headers</span><span class="p">[</span><span class="s">"Authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"Bearer &lt;api_key&gt;"</span>
+<span class="n">headers</span><span class="p">[</span><span class="s">"Accept"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"application/vnd.api+json"</span>
+
+<span class="n">reponse</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
 </code></pre></div>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"jsonapi"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"volumes"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"volumeTitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book of Mormon"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"volumeLongTitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The Book of Mormon"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"volumeSubtitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Another Testament of Jesus Christ"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"volumeShortTitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BoM"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"volumeLdsUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bofm"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"relationships"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"books"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"related"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com/api/v1/volumes/3/books"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com/api/v1/volumes/3/relationships/books"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com/api/v1/volumes/3"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="err">//</span><span class="w"> </span><span class="err">additional</span><span class="w"> </span><span class="err">volumes</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>This endpoint retrieves all kittens.</p>
+<p>This endpoint retrieves all volumes. It also includes a optional relationship to an associated Books resource.</p>
 <h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
+<p><code>GET http://example.com/api/v1/volumes</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
+<p>All query parameters on the Volumes endpoint are optional.</p>
+
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -430,102 +562,236 @@ You must replace <code>meowmeowmeow</code> with your personal API key.
 </tr>
 </thead><tbody>
 <tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
+<td>fields[type]</td>
+<td>empty</td>
+<td>Comma separated list of attributes and relationships to include</td>
 </tr>
 <tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
+<td>filter[attribute]</td>
+<td>empty</td>
+<td>Filter results based on an attribute</td>
+</tr>
+</tbody></table>
+<h3 id='attributes'>Attributes</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Example</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>volumeTitle</td>
+<td>Book of Mormon</td>
+</tr>
+<tr>
+<td>volumeLongTitle</td>
+<td>The Book of Mormon</td>
+</tr>
+<tr>
+<td>volumeSubtitle</td>
+<td>Another Testament of Jesus Christ</td>
+</tr>
+<tr>
+<td>volumeShortTitle</td>
+<td>BoM</td>
+</tr>
+<tr>
+<td>volumeLdsUrl</td>
+<td>bofm</td>
+</tr>
+</tbody></table>
+<h3 id='allowed-filters'>Allowed Filters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Allows the user to return a parial list of selected volumes.</td>
 </tr>
 </tbody></table>
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+<p><code>/api/v1/volumes?filter[id][]=1&amp;filter[id][]=2</code> returns only the Old and New Testaments.</p>
+<h3 id='relationships'>Relationships</h3>
+<table><thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>books</td>
+<td>The list of books related to this volume</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+To read more about relationships, includes, filtering or selecting specific fields please refer their individual sections later in this documentation.
 </aside>
-<h2 id='get-a-specific-kitten'>Get a Specific Kitten</h2><div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<h2 id='get-a-specific-volume'>Get a Specific Volume</h2><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="c1">// Using the native Fetch API</span>
+<span class="kd">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://example.com/api/v1/volumes/3</span><span class="dl">'</span><span class="p">;</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">GET</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">'</span><span class="s1">Authorization</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Bearer &lt;api_key&gt;</span><span class="dl">'</span><span class="p">,</span>
+    <span class="dl">'</span><span class="s1">Accept</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/vnd.api+json</span><span class="dl">'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">})</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="n">kittens</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span> <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">kittn</span><span class="dl">'</span><span class="p">);</span>
+<span class="c1">// Using the Axios package</span>
+<span class="kd">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://example.com/api/v1/volumes/3</span><span class="dl">'</span><span class="p">;</span>
 
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="c1">// Using native PHP</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s1">'http://example.com/api/v1/volumes/3'</span><span class="p">;</span>
+<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+
+<span class="nv">$header</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s2">"Authorization: Bearer &lt;api_key&gt;"</span><span class="p">,</span>
+  <span class="s2">"Accept: application/vnd.api+json"</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">);</span>
+<span class="nv">$resp</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+
+<span class="c1">// Using Laravel</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s1">'http://example.com/api/v1/volumes/3'</span><span class="p">;</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">request</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'headers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'Authorization'</span> <span class="o">=&gt;</span> <span class="s1">'Bearer &lt;api_key&gt;'</span><span class="p">,</span>
+        <span class="s1">'Accept'</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.api+json'</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">]);</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://example.com/api/v1/volumes/3'</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="n">CaseInsensitiveDict</span><span class="p">()</span>
+<span class="n">headers</span><span class="p">[</span><span class="s">"Authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"Bearer &lt;api_key&gt;"</span>
+<span class="n">headers</span><span class="p">[</span><span class="s">"Accept"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"application/vnd.api+json"</span>
+
+<span class="n">reponse</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
 </code></pre></div>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+  </span><span class="nl">"jsonapi"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/volumes/3"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"volumes"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"volumeTitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book of Mormon"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"volumeLongTitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The Book of Mormon"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"volumeSubtitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Another Testament of Jesus Christ"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"volumeShortTitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BoM"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"volumeLdsUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bofm"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"relationships"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"books"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"related"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/volumes/3/books"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/volumes/3/relationships/books"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/volumes/3"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>This endpoint retrieves a specific kitten.</p>
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+<p>This endpoint retrieves a specific volume. It includes an optional relationship to an associated Books resource. The Book data may be included directly onto the volume resource.</p>
 <h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
+<p><code>GET http://example.com/volumes/&lt;ID&gt;</code></p>
 <h3 id='url-parameters'>URL Parameters</h3>
+<p>All query parameters on the Volumes endpoint are optional.</p>
+
 <table><thead>
 <tr>
 <th>Parameter</th>
+<th>Default</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
+<td>fields[type]</td>
+<td>empty</td>
+<td>Comma separated list of attributes and relationships to include</td>
+</tr>
+<tr>
+<td>include</td>
+<td>empty</td>
+<td>Include the associated relationship type and its data directly on the resource</td>
 </tr>
 </tbody></table>
-<h2 id='delete-a-specific-kitten'>Delete a Specific Kitten</h2><div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="n">kittens</span><span class="p">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span> <span class="se">\</span>
-  <span class="nt">-X</span> DELETE <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">kittn</span><span class="dl">'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</code></pre></div>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">":("</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>This endpoint deletes a specific kitten.</p>
-<h3 id='http-request-3'>HTTP Request</h3>
-<p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
+<h3 id='attributes-2'>Attributes</h3>
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Name</th>
+<th>Example</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>volumeTitle</td>
+<td>Book of Mormon</td>
+</tr>
+<tr>
+<td>volumeLongTitle</td>
+<td>The Book of Mormon</td>
+</tr>
+<tr>
+<td>volumeSubtitle</td>
+<td>Another Testament of Jesus Christ</td>
+</tr>
+<tr>
+<td>volumeShortTitle</td>
+<td>BoM</td>
+</tr>
+<tr>
+<td>volumeLdsUrl</td>
+<td>bofm</td>
+</tr>
+</tbody></table>
+<h3 id='includable-resources'>Includable Resources</h3>
+<table><thead>
+<tr>
+<th>Type</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to delete</td>
+<td>books</td>
+<td>The books of scripture related to the requested volume.</td>
 </tr>
 </tbody></table>
+
+<p><code>/api/v1/volumes/1?include=books</code> includes the books data directly on the volume resource.</p>
+<h3 id='relationships-2'>Relationships</h3>
+<table><thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>books</td>
+<td>The list of books related to this volume</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+To read more about relationships, includes, filtering or selecting specific fields please refer their individual sections later in this documentation.
+</aside>
 <h1 id='errors'>Errors</h1>
 <aside class="notice">
 This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
@@ -588,10 +854,9 @@ This error section is stored in a separate file in <code>includes/_errors.md</co
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="ruby">ruby</a>
-                <a href="#" data-language-name="python">python</a>
                 <a href="#" data-language-name="javascript">javascript</a>
+                <a href="#" data-language-name="php">php</a>
+                <a href="#" data-language-name="python">python</a>
           </div>
       </div>
     </div>
