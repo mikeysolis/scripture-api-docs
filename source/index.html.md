@@ -14,6 +14,8 @@ includes:
   - authentication
   - headers
   - volumes
+  - books
+  - chapters
   - errors
 
 search: true
