@@ -335,6 +335,39 @@
               </ul>
           </li>
           <li>
+            <a href="#books" class="toc-h1 toc-link" data-title="Books">Books</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-all-books" class="toc-h2 toc-link" data-title="Get All Books">Get All Books</a>
+                  </li>
+                  <li>
+                    <a href="#get-a-specific-book" class="toc-h2 toc-link" data-title="Get a Specific Book">Get a Specific Book</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#chapters" class="toc-h1 toc-link" data-title="Chapters">Chapters</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-all-chapters" class="toc-h2 toc-link" data-title="Get All Chapters">Get All Chapters</a>
+                  </li>
+                  <li>
+                    <a href="#get-a-specific-chapter" class="toc-h2 toc-link" data-title="Get a Specific Chapter">Get a Specific Chapter</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#verses" class="toc-h1 toc-link" data-title="Verses">Verses</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-all-verses" class="toc-h2 toc-link" data-title="Get All Verses">Get All Verses</a>
+                  </li>
+                  <li>
+                    <a href="#get-a-specific-verse" class="toc-h2 toc-link" data-title="Get a Specific Verse">Get a Specific Verse</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
           </li>
       </ul>
@@ -712,7 +745,7 @@ To read more about relationships, includes, filtering or selecting specific fiel
 </span></code></pre></div>
 <p>This endpoint retrieves a specific volume. It includes an optional relationship to an associated Books resource. The Book data may be included directly onto the volume resource.</p>
 <h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://example.com/volumes/&lt;ID&gt;</code></p>
+<p><code>GET http://example.com/api/v1/volumes/&lt;ID&gt;</code></p>
 <h3 id='url-parameters'>URL Parameters</h3>
 <p>All query parameters on the Volumes endpoint are optional.</p>
 
@@ -786,6 +819,1152 @@ To read more about relationships, includes, filtering or selecting specific fiel
 <tr>
 <td>books</td>
 <td>The list of books related to this volume</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+To read more about relationships, includes, filtering or selecting specific fields please refer their individual sections later in this documentation.
+</aside>
+<h1 id='books'>Books</h1><h2 id='get-all-books'>Get All Books</h2>
+<blockquote>
+<p>A basic request with no query parameters</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="c1">// Using the native Fetch API</span>
+<span class="kd">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://example.com/api/v1/books?filter[volumeId]=3</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">GET</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">'</span><span class="s1">Authorization</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Bearer &lt;api_key&gt;</span><span class="dl">'</span><span class="p">,</span>
+    <span class="dl">'</span><span class="s1">Accept</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/vnd.api+json</span><span class="dl">'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">})</span>
+
+<span class="c1">// Using the Axios package</span>
+<span class="kd">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://example.com/api/v1/books?filter[volumeId]=3</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="c1">// Using native PHP</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s1">'http://example.com/api/v1/books?filter[volumeId]=3'</span><span class="p">;</span>
+<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+
+<span class="nv">$header</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s2">"Authorization: Bearer &lt;api_key&gt;"</span><span class="p">,</span>
+  <span class="s2">"Accept: application/vnd.api+json"</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">);</span>
+<span class="nv">$resp</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+
+<span class="c1">// Using Laravel</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s1">'http://example.com/api/v1/books?filter[volumeId]=3'</span><span class="p">;</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">request</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'headers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'Authorization'</span> <span class="o">=&gt;</span> <span class="s1">'Bearer &lt;api_key&gt;'</span><span class="p">,</span>
+        <span class="s1">'Accept'</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.api+json'</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">]);</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://example.com/api/v1/books?filter[volumeId]=3'</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="n">CaseInsensitiveDict</span><span class="p">()</span>
+<span class="n">headers</span><span class="p">[</span><span class="s">"Authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"Bearer &lt;api_key&gt;"</span>
+<span class="n">headers</span><span class="p">[</span><span class="s">"Accept"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"application/vnd.api+json"</span>
+
+<span class="n">reponse</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"jsonapi"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"books"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"67"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"volumeId"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"bookTitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1 Nephi"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"bookLongTitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The First Book of Nephi"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"bookSubtitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"His Reign and Ministry"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"bookShortTitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1 Ne."</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"bookLdsUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1-ne"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"relationships"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"volume"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"related"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/books/67/volume"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/books/67/relationships/volume"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"chapters"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"related"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/books/67/chapters"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/books/67/relationships/chapters"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/books/67"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"books"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"68"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"volumeId"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"bookTitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2 Nephi"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"bookLongTitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The Second Book of Nephi"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"bookSubtitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"bookShortTitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2 Ne."</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"bookLdsUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2-ne"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"relationships"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"volume"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"related"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/books/68/volume"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/books/68/relationships/volume"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"chapters"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"related"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/books/68/chapters"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/books/68/relationships/chapters"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/books/68"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="err">//</span><span class="w"> </span><span class="err">additional</span><span class="w"> </span><span class="err">books</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint retrieves all books in a volume. It requires you to specifiy the volume using a query filter. By default the resource includes relationship links to the associated volume and chapters for each book returned. It is possible to include the volume relationship data directly onto the book resource.</p>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>GET http://example.com/api/v1/books?filter[volumeId]=3</code></p>
+<h3 id='query-parameters'>Query Parameters</h3>
+<p>The filter[volumeId] parameter is required, all other are optional.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>filter[attribute]</td>
+<td>required</td>
+<td>Filter results based on an attribute</td>
+</tr>
+<tr>
+<td>fields[type]</td>
+<td>empty</td>
+<td>Comma separated list of attributes and relationships to include</td>
+</tr>
+</tbody></table>
+<h3 id='attributes'>Attributes</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Example</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>volumeId</td>
+<td>3</td>
+</tr>
+<tr>
+<td>bookTitle</td>
+<td>1 Nephi</td>
+</tr>
+<tr>
+<td>bookLongTitle</td>
+<td>The First Book of Nephi</td>
+</tr>
+<tr>
+<td>bookSubtitle</td>
+<td>His Reign and Ministry</td>
+</tr>
+<tr>
+<td>bookShortTitle</td>
+<td>1 Ne.</td>
+</tr>
+<tr>
+<td>bookLdsUrl</td>
+<td>1-ne</td>
+</tr>
+</tbody></table>
+<h3 id='allowed-filters'>Allowed Filters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>volumeId</td>
+<td>Required, allows the user to select all books from a selected volume.</td>
+</tr>
+</tbody></table>
+
+<p><code>/api/v1/books?filter[volumeId]=3</code> returns all books in the Book of Mormon.</p>
+<h3 id='includable-resources'>Includable Resources</h3>
+<table><thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>volume</td>
+<td>The volume resource for the returned book resource.</td>
+</tr>
+</tbody></table>
+
+<p><code>/api/v1/books?filter[volumeId]=3&amp;include=volume</code> includes the books data directly on the volume resource.</p>
+<h3 id='relationships'>Relationships</h3>
+<table><thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>volumes</td>
+<td>Volume associated with the book</td>
+</tr>
+<tr>
+<td>chapters</td>
+<td>Chapters associated with the book</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+To read more about relationships, includes, filtering or selecting specific fields please refer their individual sections later in this documentation.
+</aside>
+<h2 id='get-a-specific-book'>Get a Specific Book</h2><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="c1">// Using the native Fetch API</span>
+<span class="kd">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://example.com/api/v1/books/77</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">GET</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">'</span><span class="s1">Authorization</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Bearer &lt;api_key&gt;</span><span class="dl">'</span><span class="p">,</span>
+    <span class="dl">'</span><span class="s1">Accept</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/vnd.api+json</span><span class="dl">'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">})</span>
+
+<span class="c1">// Using the Axios package</span>
+<span class="kd">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://example.com/api/v1/books/77</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="c1">// Using native PHP</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s1">'http://example.com/api/v1/books/77'</span><span class="p">;</span>
+<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+
+<span class="nv">$header</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s2">"Authorization: Bearer &lt;api_key&gt;"</span><span class="p">,</span>
+  <span class="s2">"Accept: application/vnd.api+json"</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">);</span>
+<span class="nv">$resp</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+
+<span class="c1">// Using Laravel</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s1">'http://example.com/api/v1/books/77'</span><span class="p">;</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">request</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'headers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'Authorization'</span> <span class="o">=&gt;</span> <span class="s1">'Bearer &lt;api_key&gt;'</span><span class="p">,</span>
+        <span class="s1">'Accept'</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.api+json'</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">]);</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://example.com/api/v1/books/77'</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="n">CaseInsensitiveDict</span><span class="p">()</span>
+<span class="n">headers</span><span class="p">[</span><span class="s">"Authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"Bearer &lt;api_key&gt;"</span>
+<span class="n">headers</span><span class="p">[</span><span class="s">"Accept"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"application/vnd.api+json"</span>
+
+<span class="n">reponse</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"jsonapi"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/books/77"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"books"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"77"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"volumeId"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"bookTitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3 Nephi"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"bookLongTitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The Third Book of Nephi"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"bookSubtitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The Book of Nephi, the Son of Nephi, who was the Son of Helaman"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"bookShortTitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3 Ne."</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"bookLdsUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3-ne"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"relationships"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"volume"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"related"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/books/77/volume"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/books/77/relationships/volume"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"chapters"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"related"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/books/77/chapters"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/books/77/relationships/chapters"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/books/77"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint retrieves a specific book. It includes optional relationships to associated Volume and Chapters resources. Both the Volume and Chapter data may be included directly on the Book resource.</p>
+<h3 id='http-request-2'>HTTP Request</h3>
+<p><code>GET http://example.com/api/v1/books/&lt;ID&gt;</code></p>
+<h3 id='url-parameters'>URL Parameters</h3>
+<p>All query parameters on the Volumes endpoint are optional.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>fields[type]</td>
+<td>empty</td>
+<td>Comma separated list of attributes and relationships to include</td>
+</tr>
+<tr>
+<td>include</td>
+<td>empty</td>
+<td>Include the associated relationship types and their data directly on the resource</td>
+</tr>
+</tbody></table>
+<h3 id='attributes-2'>Attributes</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Example</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>volumeId</td>
+<td>3</td>
+</tr>
+<tr>
+<td>bookTitle</td>
+<td>3 Nephi</td>
+</tr>
+<tr>
+<td>bookLongTitle</td>
+<td>The Third Book of Nephi</td>
+</tr>
+<tr>
+<td>bookSubtitle</td>
+<td>The Book of Nephi, the Son of Nephi, who was the Son of Helaman</td>
+</tr>
+<tr>
+<td>bookShortTitle</td>
+<td>3 Ne.</td>
+</tr>
+<tr>
+<td>bookLdsUrl</td>
+<td>3-ne</td>
+</tr>
+</tbody></table>
+<h3 id='includable-resources-2'>Includable Resources</h3>
+<table><thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>volume</td>
+<td>The volume associated with the book</td>
+</tr>
+<tr>
+<td>chapters</td>
+<td>The chapters associated with the book</td>
+</tr>
+</tbody></table>
+
+<p><code>/api/v1/books/&lt;ID&gt;?include=volume,chapters</code> includes both relationships data directly onto the book resource.</p>
+<h3 id='relationships-2'>Relationships</h3>
+<table><thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>volumes</td>
+<td>The associated volume for the book</td>
+</tr>
+<tr>
+<td>chapters</td>
+<td>The associated chapters for the book</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+To read more about relationships, includes, filtering or selecting specific fields please refer their individual sections later in this documentation.
+</aside>
+<h1 id='chapters'>Chapters</h1><h2 id='get-all-chapters'>Get All Chapters</h2>
+<blockquote>
+<p>A basic request with no query parameters</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="c1">// Using the native Fetch API</span>
+<span class="kd">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://example.com/api/v1/chapters?filter[bookId]=67</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">GET</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">'</span><span class="s1">Authorization</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Bearer &lt;api_key&gt;</span><span class="dl">'</span><span class="p">,</span>
+    <span class="dl">'</span><span class="s1">Accept</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/vnd.api+json</span><span class="dl">'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">})</span>
+
+<span class="c1">// Using the Axios package</span>
+<span class="kd">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://example.com/api/v1/chapters?filter[bookId]=67</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="c1">// Using native PHP</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s1">'http://example.com/api/v1/chapters?filter[bookId]=67'</span><span class="p">;</span>
+<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+
+<span class="nv">$header</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s2">"Authorization: Bearer &lt;api_key&gt;"</span><span class="p">,</span>
+  <span class="s2">"Accept: application/vnd.api+json"</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">);</span>
+<span class="nv">$resp</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+
+<span class="c1">// Using Laravel</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s1">'http://example.com/api/v1/chapters?filter[bookId]=67'</span><span class="p">;</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">request</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'headers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'Authorization'</span> <span class="o">=&gt;</span> <span class="s1">'Bearer &lt;api_key&gt;'</span><span class="p">,</span>
+        <span class="s1">'Accept'</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.api+json'</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">]);</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://example.com/api/v1/chapters?filter[bookId]=67'</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="n">CaseInsensitiveDict</span><span class="p">()</span>
+<span class="n">headers</span><span class="p">[</span><span class="s">"Authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"Bearer &lt;api_key&gt;"</span>
+<span class="n">headers</span><span class="p">[</span><span class="s">"Accept"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"application/vnd.api+json"</span>
+
+<span class="n">reponse</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"jsonapi"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"chapters"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1190"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"bookId"</span><span class="p">:</span><span class="w"> </span><span class="mi">67</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"chapterNumber"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"relationships"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"book"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"related"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/chapters/1190/book"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/chapters/1190/relationships/book"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"verses"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"related"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/chapters/1190/verses"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/chapters/1190/relationships/verses"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/chapters/1190"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"chapters"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1191"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"bookId"</span><span class="p">:</span><span class="w"> </span><span class="mi">67</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"chapterNumber"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"relationships"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"book"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"related"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/chapters/1191/book"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/chapters/1191/relationships/book"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"verses"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"related"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/chapters/1191/verses"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/chapters/1191/relationships/verses"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/chapters/1191"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="err">//</span><span class="w"> </span><span class="err">Additional</span><span class="w"> </span><span class="err">chapters</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint retrieves all chapters in a book. It requires you to specifiy the book using a query filter. By default the resource includes relationship links to the associated book and verses for each chapter returned. It is possible to include the book relationship data directly onto the chapter resource.</p>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>GET http://example.com/api/v1/chapters?filter[bookId]=67</code></p>
+<h3 id='query-parameters'>Query Parameters</h3>
+<p>The filter[bookId] parameter is required, all others are optional.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>filter[attribute]</td>
+<td>required</td>
+<td>Filter results based on an attribute</td>
+</tr>
+<tr>
+<td>fields[type]</td>
+<td>empty</td>
+<td>Comma separated list of attributes and relationships to include</td>
+</tr>
+<tr>
+<td>include</td>
+<td>empty</td>
+<td>Include the associated relationship types and their data directly on the resource</td>
+</tr>
+</tbody></table>
+<h3 id='attributes'>Attributes</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Example</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>bookId</td>
+<td>67</td>
+</tr>
+<tr>
+<td>chapterNumber</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<h3 id='allowed-filters'>Allowed Filters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>bookId</td>
+<td>Required, allows the user to select all chapters from a selected book.</td>
+</tr>
+</tbody></table>
+
+<p><code>/api/v1/chapters?filter[bookId]=67</code> returns all chapters in 1st Nephi.</p>
+<h3 id='includable-resources'>Includable Resources</h3>
+<table><thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>book</td>
+<td>The related book data for the returned chapter resource.</td>
+</tr>
+</tbody></table>
+
+<p><code>/api/v1/chapters?filter[bookId]=67&amp;include=book</code> includes the book data directly on the chapter resource.</p>
+<h3 id='relationships'>Relationships</h3>
+<table><thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>book</td>
+<td>Book associated with the chapter</td>
+</tr>
+<tr>
+<td>verses</td>
+<td>Verses associated with the chapter</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+To read more about relationships, includes, filtering or selecting specific fields please refer their individual sections later in this documentation.
+</aside>
+<h2 id='get-a-specific-chapter'>Get a Specific Chapter</h2><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="c1">// Using the native Fetch API</span>
+<span class="kd">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://example.com/api/v1/chapters/1190</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">GET</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">'</span><span class="s1">Authorization</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Bearer &lt;api_key&gt;</span><span class="dl">'</span><span class="p">,</span>
+    <span class="dl">'</span><span class="s1">Accept</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/vnd.api+json</span><span class="dl">'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">})</span>
+
+<span class="c1">// Using the Axios package</span>
+<span class="kd">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://example.com/api/v1/chapters/1190</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="c1">// Using native PHP</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s1">'http://example.com/api/v1/chapters/1190'</span><span class="p">;</span>
+<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+
+<span class="nv">$header</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s2">"Authorization: Bearer &lt;api_key&gt;"</span><span class="p">,</span>
+  <span class="s2">"Accept: application/vnd.api+json"</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">);</span>
+<span class="nv">$resp</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+
+<span class="c1">// Using Laravel</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s1">'http://example.com/api/v1/chapters/1190'</span><span class="p">;</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">request</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'headers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'Authorization'</span> <span class="o">=&gt;</span> <span class="s1">'Bearer &lt;api_key&gt;'</span><span class="p">,</span>
+        <span class="s1">'Accept'</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.api+json'</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">]);</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://example.com/api/v1/chapters/1190'</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="n">CaseInsensitiveDict</span><span class="p">()</span>
+<span class="n">headers</span><span class="p">[</span><span class="s">"Authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"Bearer &lt;api_key&gt;"</span>
+<span class="n">headers</span><span class="p">[</span><span class="s">"Accept"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"application/vnd.api+json"</span>
+
+<span class="n">reponse</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"jsonapi"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/chapters/1190"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"chapters"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1190"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"bookId"</span><span class="p">:</span><span class="w"> </span><span class="mi">67</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"chapterNumber"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"relationships"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"book"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"related"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/chapters/1190/book"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/chapters/1190/relationships/book"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"verses"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"related"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/chapters/1190/verses"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/chapters/1190/relationships/verses"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/chapters/1190"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint retrieves a specific chapter. It includes optional relationships to associated Book and Verses resources. Both the Book and Verses data may be included directly on the Chapter resource.</p>
+<h3 id='http-request-2'>HTTP Request</h3>
+<p><code>GET http://example.com/api/v1/chapters/&lt;ID&gt;</code></p>
+<h3 id='url-parameters'>URL Parameters</h3>
+<p>All query parameters on the Chapters endpoint are optional.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>fields[type]</td>
+<td>empty</td>
+<td>Comma separated list of attributes and relationships to include</td>
+</tr>
+<tr>
+<td>include</td>
+<td>empty</td>
+<td>Include the associated relationship types and their data directly on the resource</td>
+</tr>
+</tbody></table>
+<h3 id='attributes-2'>Attributes</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Example</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>bookId</td>
+<td>67</td>
+</tr>
+<tr>
+<td>chapterNumber</td>
+<td>3</td>
+</tr>
+</tbody></table>
+<h3 id='includable-resources-2'>Includable Resources</h3>
+<table><thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>book</td>
+<td>The related book data for the returned chapter resource.</td>
+</tr>
+</tbody></table>
+
+<p><code>/api/v1/books/&lt;ID&gt;?include=volume,chapters</code> includes both relationships data directly onto the book resource.</p>
+<h3 id='relationships-2'>Relationships</h3>
+<table><thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>book</td>
+<td>Book associated with the chapter</td>
+</tr>
+<tr>
+<td>verses</td>
+<td>Verses associated with the chapter</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+To read more about relationships, includes, filtering or selecting specific fields please refer their individual sections later in this documentation.
+</aside>
+<h1 id='verses'>Verses</h1><h2 id='get-all-verses'>Get All Verses</h2>
+<blockquote>
+<p>A basic request with no query parameters</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="c1">// Using the native Fetch API</span>
+<span class="kd">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://example.com/api/v1/verses?filter[chapterId]=1160</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">GET</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">'</span><span class="s1">Authorization</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Bearer &lt;api_key&gt;</span><span class="dl">'</span><span class="p">,</span>
+    <span class="dl">'</span><span class="s1">Accept</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/vnd.api+json</span><span class="dl">'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">})</span>
+
+<span class="c1">// Using the Axios package</span>
+<span class="kd">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://example.com/api/v1/verses?filter[chapterId]=1160</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="c1">// Using native PHP</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s1">'http://example.com/api/v1/verses?filter[chapterId]=1160'</span><span class="p">;</span>
+<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+
+<span class="nv">$header</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s2">"Authorization: Bearer &lt;api_key&gt;"</span><span class="p">,</span>
+  <span class="s2">"Accept: application/vnd.api+json"</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">);</span>
+<span class="nv">$resp</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+
+<span class="c1">// Using Laravel</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s1">'http://example.com/api/v1/verses?filter[chapterId]=1160'</span><span class="p">;</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">request</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'headers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'Authorization'</span> <span class="o">=&gt;</span> <span class="s1">'Bearer &lt;api_key&gt;'</span><span class="p">,</span>
+        <span class="s1">'Accept'</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.api+json'</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">]);</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://example.com/api/v1/verses?filter[chapterId]=1160'</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="n">CaseInsensitiveDict</span><span class="p">()</span>
+<span class="n">headers</span><span class="p">[</span><span class="s">"Authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"Bearer &lt;api_key&gt;"</span>
+<span class="n">headers</span><span class="p">[</span><span class="s">"Accept"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"application/vnd.api+json"</span>
+
+<span class="n">reponse</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"jsonapi"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"verses"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"31103"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"chapterId"</span><span class="p">:</span><span class="w"> </span><span class="mi">1190</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"verseNumber"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"scriptureText"</span><span class="p">:</span><span class="w"> </span><span class="s2">"I, Nephi, having been born of goodly parents, therefore I was taught somewhat in all the learning of my father; and having seen many afflictions in the course of my days, nevertheless, having been highly favored of the Lord in all my days; yea, having had a great knowledge of the goodness and the mysteries of God, therefore I make a record of my proceedings in my days."</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"relationships"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"chapter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"related"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/verses/31103/chapter"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/verses/31103/relationships/chapter"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/verses/31103"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"verses"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"31104"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"chapterId"</span><span class="p">:</span><span class="w"> </span><span class="mi">1190</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"verseNumber"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"scriptureText"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Yea, I make a record in the language of my father, which consists of the learning of the Jews and the language of the Egyptians."</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"relationships"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"chapter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"related"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/verses/31104/chapter"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/verses/31104/relationships/chapter"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/verses/31104"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="err">//</span><span class="w"> </span><span class="err">Additional</span><span class="w"> </span><span class="err">verses</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint retrieves all verses in a chapter. It requires you to specifiy the chapter using a query filter. By default the resource includes a relationship link to the associated chapter for each verse returned. It is possible to include the volume, book and chapter relationship data directly onto the verse resource.</p>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>GET http://example.com/api/v1/verses?filter[chapterId]=1190</code></p>
+<h3 id='query-parameters'>Query Parameters</h3>
+<p>The filter[chapterId] parameter is required, all others are optional.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>filter[attribute]</td>
+<td>required</td>
+<td>Filter results based on an attribute</td>
+</tr>
+<tr>
+<td>fields[type]</td>
+<td>empty</td>
+<td>Comma separated list of attributes and relationships to include</td>
+</tr>
+<tr>
+<td>include</td>
+<td>empty</td>
+<td>Include the associated relationship types and their data directly on the resource</td>
+</tr>
+</tbody></table>
+<h3 id='attributes'>Attributes</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Example</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>chapterId</td>
+<td>1190</td>
+</tr>
+<tr>
+<td>verseNumber</td>
+<td>2</td>
+</tr>
+<tr>
+<td>scriptureText</td>
+<td>Yea, I make a record in the language of my father, which consists of the learning of the Jews and the language of the Egyptians.</td>
+</tr>
+</tbody></table>
+<h3 id='allowed-filters'>Allowed Filters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>chapterId</td>
+<td>Required, allows the user to select all verses from a selected chapter.</td>
+</tr>
+</tbody></table>
+
+<p><code>/api/v1/verses?filter[chapterId]=1190</code> returns all verses in 1st Nephi Chapter 1.</p>
+<h3 id='includable-resources'>Includable Resources</h3>
+<table><thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>volume</td>
+<td>The related volume data for the returned verse resource.</td>
+</tr>
+<tr>
+<td>book</td>
+<td>The related book data for the returned verse resource.</td>
+</tr>
+<tr>
+<td>chapter</td>
+<td>The related chapter data for the returned verse resource.</td>
+</tr>
+</tbody></table>
+
+<p><code>/api/v1/verses?filter[chapterId]=1190&amp;include=chapter.book.volume</code> includes the volume, book, and chapter data directly on the verse resource.</p>
+<h3 id='relationships'>Relationships</h3>
+<table><thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>volume</td>
+<td>Volume associated with the verse</td>
+</tr>
+<tr>
+<td>book</td>
+<td>Book associated with the verse</td>
+</tr>
+<tr>
+<td>chapter</td>
+<td>Chapter associated with the chapter</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+To read more about relationships, includes, filtering or selecting specific fields please refer their individual sections later in this documentation.
+</aside>
+<h2 id='get-a-specific-verse'>Get a Specific Verse</h2><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="c1">// Using the native Fetch API</span>
+<span class="kd">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://example.com/api/v1/verses/31103</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">GET</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">'</span><span class="s1">Authorization</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Bearer &lt;api_key&gt;</span><span class="dl">'</span><span class="p">,</span>
+    <span class="dl">'</span><span class="s1">Accept</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/vnd.api+json</span><span class="dl">'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">})</span>
+
+<span class="c1">// Using the Axios package</span>
+<span class="kd">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://example.com/api/v1/verses/31103</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+</code></pre></div><div class="highlight"><pre class="highlight php tab-php"><code><span class="c1">// Using native PHP</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s1">'http://example.com/api/v1/verses/31103'</span><span class="p">;</span>
+<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+
+<span class="nv">$header</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s2">"Authorization: Bearer &lt;api_key&gt;"</span><span class="p">,</span>
+  <span class="s2">"Accept: application/vnd.api+json"</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="no">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">);</span>
+<span class="nv">$resp</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+
+<span class="c1">// Using Laravel</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s1">'http://example.com/api/v1/verses/31103'</span><span class="p">;</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">request</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="nv">$url</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'headers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'Authorization'</span> <span class="o">=&gt;</span> <span class="s1">'Bearer &lt;api_key&gt;'</span><span class="p">,</span>
+        <span class="s1">'Accept'</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.api+json'</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">]);</span>
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://example.com/api/v1/verses/31103'</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="n">CaseInsensitiveDict</span><span class="p">()</span>
+<span class="n">headers</span><span class="p">[</span><span class="s">"Authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"Bearer &lt;api_key&gt;"</span>
+<span class="n">headers</span><span class="p">[</span><span class="s">"Accept"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"application/vnd.api+json"</span>
+
+<span class="n">reponse</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"jsonapi"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/verses/31103"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"verses"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"31103"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"chapterId"</span><span class="p">:</span><span class="w"> </span><span class="mi">1190</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"verseNumber"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"scriptureText"</span><span class="p">:</span><span class="w"> </span><span class="s2">"I, Nephi, having been born of goodly parents, therefore I was taught somewhat in all the learning of my father; and having seen many afflictions in the course of my days, nevertheless, having been highly favored of the Lord in all my days; yea, having had a great knowledge of the goodness and the mysteries of God, therefore I make a record of my proceedings in my days."</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"relationships"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"chapter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"related"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/verses/31103/chapter"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/verses/31103/relationships/chapter"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://scripture-api.test/api/v1/verses/31103"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint retrieves a specific verse. It includes optional relationships to associated Volume, Book and Chapter resources. Both the Book and Verses data may be included directly on the Chapter resource.</p>
+<h3 id='http-request-2'>HTTP Request</h3>
+<p><code>GET http://example.com/api/v1/verses/&lt;ID&gt;</code></p>
+<h3 id='url-parameters'>URL Parameters</h3>
+<p>All query parameters on the Chapters endpoint are optional.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>fields[type]</td>
+<td>empty</td>
+<td>Comma separated list of attributes and relationships to include</td>
+</tr>
+<tr>
+<td>include</td>
+<td>empty</td>
+<td>Include the associated relationship types and their data directly on the resource</td>
+</tr>
+</tbody></table>
+<h3 id='attributes-2'>Attributes</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Example</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>chapterId</td>
+<td>31103</td>
+</tr>
+<tr>
+<td>verseNumber</td>
+<td>1</td>
+</tr>
+<tr>
+<td>scriptureText</td>
+<td>I, Nephi, having been born of goodly parents...</td>
+</tr>
+</tbody></table>
+<h3 id='includable-resources-2'>Includable Resources</h3>
+<table><thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>volume</td>
+<td>The related volume data for the returned verse resource.</td>
+</tr>
+<tr>
+<td>book</td>
+<td>The related book data for the returned verse resource.</td>
+</tr>
+<tr>
+<td>chapter</td>
+<td>The related chapter data for the returned verse resource.</td>
+</tr>
+</tbody></table>
+
+<p><code>/api/v1/verses/&lt;ID&gt;?include=volume.book.chapters</code> includes all relationships data directly onto the verse resource.</p>
+<h3 id='relationships-2'>Relationships</h3>
+<table><thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>volume</td>
+<td>Volume associated with the verse</td>
+</tr>
+<tr>
+<td>book</td>
+<td>Book associated with the verse</td>
+</tr>
+<tr>
+<td>chapter</td>
+<td>Chapter associated with the chapter</td>
 </tr>
 </tbody></table>
 
