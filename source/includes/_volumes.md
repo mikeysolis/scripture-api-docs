@@ -231,7 +231,7 @@ This endpoint retrieves a specific volume. It includes an optional relationship 
 
 ### HTTP Request
 
-`GET http://example.com/volumes/<ID>`
+`GET http://example.com/api/v1/volumes/<ID>`
 
 ### URL Parameters
 

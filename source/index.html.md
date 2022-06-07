@@ -16,6 +16,7 @@ includes:
   - volumes
   - books
   - chapters
+  - verses
   - errors
 
 search: true

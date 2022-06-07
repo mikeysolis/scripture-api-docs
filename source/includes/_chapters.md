@@ -6,7 +6,7 @@
 
 ```javascript
 // Using the native Fetch API
-const url = 'http://example.com/api/v1/books?filter[volumeId]=3';
+const url = 'http://example.com/api/v1/chapters?filter[bookId]=67';
 
 fetch(url, {
   method: 'GET',
@@ -17,14 +17,14 @@ fetch(url, {
 })
 
 // Using the Axios package
-const url = 'http://example.com/api/v1/books?filter[volumeId]=3';
+const url = 'http://example.com/api/v1/chapters?filter[bookId]=67';
 
 await axios.get(url);
 ```
 
 ```php
 // Using native PHP
-$url = 'http://example.com/api/v1/books?filter[volumeId]=3';
+$url = 'http://example.com/api/v1/chapters?filter[bookId]=67';
 $curl = curl_init($url);
 
 $header = array(
@@ -36,7 +36,7 @@ curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 $resp = curl_exec($curl);
 
 // Using Laravel
-$url = 'http://example.com/api/v1/books?filter[volumeId]=3';
+$url = 'http://example.com/api/v1/chapters?filter[bookId]=67';
 
 $response = $client->request('GET', $url, [
     'headers' => [
@@ -49,7 +49,7 @@ $response = $client->request('GET', $url, [
 ```python
 import requests
 
-url = 'http://example.com/api/v1/books?filter[volumeId]=3'
+url = 'http://example.com/api/v1/chapters?filter[bookId]=67'
 
 headers = CaseInsensitiveDict()
 headers["Authorization"] = "Bearer <api_key>"
@@ -63,120 +63,109 @@ reponse = requests.get(url, headers=headers)
 ```json
 {
   "jsonapi": {
-    "version": "1.0"
+      "version": "1.0"
   },
   "data": [
     {
-      "type": "books",
-      "id": "67",
+      "type": "chapters",
+      "id": "1190",
       "attributes": {
-        "volumeId": 3,
-        "bookTitle": "1 Nephi",
-        "bookLongTitle": "The First Book of Nephi",
-        "bookSubtitle": "His Reign and Ministry",
-        "bookShortTitle": "1 Ne.",
-        "bookLdsUrl": "1-ne"
+        "bookId": 67,
+        "chapterNumber": 1
       },
       "relationships": {
-        "volume": {
+        "book": {
           "links": {
-            "related": "http://scripture-api.test/api/v1/books/67/volume",
-            "self": "http://scripture-api.test/api/v1/books/67/relationships/volume"
+            "related": "http://scripture-api.test/api/v1/chapters/1190/book",
+            "self": "http://scripture-api.test/api/v1/chapters/1190/relationships/book"
           }
         },
-        "chapters": {
+        "verses": {
           "links": {
-            "related": "http://scripture-api.test/api/v1/books/67/chapters",
-            "self": "http://scripture-api.test/api/v1/books/67/relationships/chapters"
+            "related": "http://scripture-api.test/api/v1/chapters/1190/verses",
+            "self": "http://scripture-api.test/api/v1/chapters/1190/relationships/verses"
           }
         }
       },
       "links": {
-        "self": "http://scripture-api.test/api/v1/books/67"
+        "self": "http://scripture-api.test/api/v1/chapters/1190"
       }
     },
     {
-      "type": "books",
-      "id": "68",
+      "type": "chapters",
+      "id": "1191",
       "attributes": {
-        "volumeId": 3,
-        "bookTitle": "2 Nephi",
-        "bookLongTitle": "The Second Book of Nephi",
-        "bookSubtitle": "",
-        "bookShortTitle": "2 Ne.",
-        "bookLdsUrl": "2-ne"
+        "bookId": 67,
+        "chapterNumber": 2
       },
       "relationships": {
-        "volume": {
+        "book": {
           "links": {
-            "related": "http://scripture-api.test/api/v1/books/68/volume",
-            "self": "http://scripture-api.test/api/v1/books/68/relationships/volume"
+            "related": "http://scripture-api.test/api/v1/chapters/1191/book",
+            "self": "http://scripture-api.test/api/v1/chapters/1191/relationships/book"
           }
         },
-        "chapters": {
+        "verses": {
           "links": {
-            "related": "http://scripture-api.test/api/v1/books/68/chapters",
-            "self": "http://scripture-api.test/api/v1/books/68/relationships/chapters"
+            "related": "http://scripture-api.test/api/v1/chapters/1191/verses",
+            "self": "http://scripture-api.test/api/v1/chapters/1191/relationships/verses"
           }
         }
       },
       "links": {
-        "self": "http://scripture-api.test/api/v1/books/68"
+        "self": "http://scripture-api.test/api/v1/chapters/1191"
       }
     },
-    // additional books
+    // Additional chapters
   ]
 }
 ```
 
-This endpoint retrieves all books in a volume. It requires you to specifiy the volume using a query filter. By default the resource includes relationship links to the associated volume and chapters for each book returned. It is possible to include the volume relationship data directly onto the book resource.
+This endpoint retrieves all chapters in a book. It requires you to specifiy the book using a query filter. By default the resource includes relationship links to the associated book and verses for each chapter returned. It is possible to include the book relationship data directly onto the chapter resource.
 
 ### HTTP Request
 
-`GET http://example.com/api/v1/books?filter[volumeId]=3`
+`GET http://example.com/api/v1/chapters?filter[bookId]=67`
 
 ### Query Parameters
 
-The filter[volumeId] parameter is required, all other are optional.
+The filter[bookId] parameter is required, all others are optional.
 
 Parameter | Default | Description
 --------- | ------- | -----------
 filter[attribute] | required | Filter results based on an attribute
 fields[type] | empty | Comma separated list of attributes and relationships to include
+include | empty | Include the associated relationship types and their data directly on the resource
 
 ### Attributes
 
 Name | Example
 ---------- | -------
-volumeId | 3
-bookTitle | 1 Nephi
-bookLongTitle | The First Book of Nephi
-bookSubtitle | His Reign and Ministry
-bookShortTitle | 1 Ne.
-bookLdsUrl | 1-ne
+bookId | 67
+chapterNumber | 1
 
 ### Allowed Filters
 
 Name | Description
 ---- | -----------
-volumeId | Required, allows the user to select all books from a selected volume.
+bookId | Required, allows the user to select all chapters from a selected book.
 
-`/api/v1/books?filter[volumeId]=3` returns all books in the Book of Mormon.
+`/api/v1/chapters?filter[bookId]=67` returns all chapters in 1st Nephi.
 
 ### Includable Resources
 
 Type | Description
 ---- | -----------
-volumes | The volume resource for the returned book resource.
+book | The related book data for the returned chapter resource.
 
-`/api/v1/books?filter[volumeId]=3&include=volume` includes the books data directly on the volume resource.
+`/api/v1/chapters?filter[bookId]=67&include=book` includes the book data directly on the chapter resource.
 
 ### Relationships
 
 Type | Description
 ---- | ----
-volumes | Volume associated with the book
-chapters | Chapters associated with the book
+book | Book associated with the chapter
+verses | Verses associated with the chapter
 
 <aside class="notice">
 To read more about relationships, includes, filtering or selecting specific fields please refer their individual sections later in this documentation.
@@ -186,7 +175,7 @@ To read more about relationships, includes, filtering or selecting specific fiel
 
 ```javascript
 // Using the native Fetch API
-const url = 'http://example.com/api/v1/books/77';
+const url = 'http://example.com/api/v1/chapters/1190';
 
 fetch(url, {
   method: 'GET',
@@ -197,14 +186,14 @@ fetch(url, {
 })
 
 // Using the Axios package
-const url = 'http://example.com/api/v1/books/77';
+const url = 'http://example.com/api/v1/chapters/1190';
 
 await axios.get(url);
 ```
 
 ```php
 // Using native PHP
-$url = 'http://example.com/api/v1/books/77';
+$url = 'http://example.com/api/v1/chapters/1190';
 $curl = curl_init($url);
 
 $header = array(
@@ -216,7 +205,7 @@ curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 $resp = curl_exec($curl);
 
 // Using Laravel
-$url = 'http://example.com/api/v1/books/77';
+$url = 'http://example.com/api/v1/chapters/1190';
 
 $response = $client->request('GET', $url, [
     'headers' => [
@@ -229,7 +218,7 @@ $response = $client->request('GET', $url, [
 ```python
 import requests
 
-url = 'http://example.com/api/v1/books/77'
+url = 'http://example.com/api/v1/chapters/1190'
 
 headers = CaseInsensitiveDict()
 headers["Authorization"] = "Bearer <api_key>"
@@ -246,49 +235,45 @@ reponse = requests.get(url, headers=headers)
     "version": "1.0"
   },
   "links": {
-    "self": "http://scripture-api.test/api/v1/books/77"
+    "self": "http://scripture-api.test/api/v1/chapters/1190"
   },
   "data": {
-    "type": "books",
-    "id": "77",
+    "type": "chapters",
+    "id": "1190",
     "attributes": {
-      "volumeId": 3,
-      "bookTitle": "3 Nephi",
-      "bookLongTitle": "The Third Book of Nephi",
-      "bookSubtitle": "The Book of Nephi, the Son of Nephi, who was the Son of Helaman",
-      "bookShortTitle": "3 Ne.",
-      "bookLdsUrl": "3-ne"
+        "bookId": 67,
+        "chapterNumber": 1
     },
     "relationships": {
-      "volume": {
+      "book": {
         "links": {
-          "related": "http://scripture-api.test/api/v1/books/77/volume",
-          "self": "http://scripture-api.test/api/v1/books/77/relationships/volume"
+          "related": "http://scripture-api.test/api/v1/chapters/1190/book",
+          "self": "http://scripture-api.test/api/v1/chapters/1190/relationships/book"
         }
       },
-      "chapters": {
+      "verses": {
         "links": {
-          "related": "http://scripture-api.test/api/v1/books/77/chapters",
-          "self": "http://scripture-api.test/api/v1/books/77/relationships/chapters"
+          "related": "http://scripture-api.test/api/v1/chapters/1190/verses",
+          "self": "http://scripture-api.test/api/v1/chapters/1190/relationships/verses"
         }
       }
     },
     "links": {
-      "self": "http://scripture-api.test/api/v1/books/77"
+      "self": "http://scripture-api.test/api/v1/chapters/1190"
     }
   }
 }
 ```
 
-This endpoint retrieves a specific book. It includes optional relationships to associated Volume and Chapters resources. Both the Volume and Chapter data may be included directly on the Book resource.
+This endpoint retrieves a specific chapter. It includes optional relationships to associated Book and Verses resources. Both the Book and Verses data may be included directly on the Chapter resource.
 
 ### HTTP Request
 
-`GET http://example.com/books/<ID>`
+`GET http://example.com/api/v1/chapters/<ID>`
 
 ### URL Parameters
 
-All query parameters on the Volumes endpoint are optional.
+All query parameters on the Chapters endpoint are optional.
 
 Parameter | Default | Description
 --------- | ------- | -----------
@@ -299,19 +284,14 @@ include | empty | Include the associated relationship types and their data direc
 
 Name | Example
 ---------- | -------
-volumeId | 3
-bookTitle | 3 Nephi
-bookLongTitle | The Third Book of Nephi
-bookSubtitle | The Book of Nephi, the Son of Nephi, who was the Son of Helaman
-bookShortTitle | 3 Ne.
-bookLdsUrl | 3-ne
+bookId | 67
+chapterNumber | 3
 
 ### Includable Resources
 
 Type | Description
 ---- | -----------
-volumes | The volume associated with the book
-chapters | The chapters associated with the book
+book | The related book data for the returned chapter resource.
 
 `/api/v1/books/<ID>?include=volume,chapters` includes both relationships data directly onto the book resource.
 
@@ -319,8 +299,8 @@ chapters | The chapters associated with the book
 
 Type | Description
 ---- | ----
-volumes | The associated volume for the book
-chapters | The associated chapters for the book 
+book | Book associated with the chapter
+verses | Verses associated with the chapter
 
 <aside class="notice">
 To read more about relationships, includes, filtering or selecting specific fields please refer their individual sections later in this documentation.

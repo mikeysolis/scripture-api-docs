@@ -167,7 +167,7 @@ volumeId | Required, allows the user to select all books from a selected volume.
 
 Type | Description
 ---- | -----------
-volumes | The volume resource for the returned book resource.
+volume | The volume resource for the returned book resource.
 
 `/api/v1/books?filter[volumeId]=3&include=volume` includes the books data directly on the volume resource.
 
@@ -284,7 +284,7 @@ This endpoint retrieves a specific book. It includes optional relationships to a
 
 ### HTTP Request
 
-`GET http://example.com/books/<ID>`
+`GET http://example.com/api/v1/books/<ID>`
 
 ### URL Parameters
 
@@ -310,7 +310,7 @@ bookLdsUrl | 3-ne
 
 Type | Description
 ---- | -----------
-volumes | The volume associated with the book
+volume | The volume associated with the book
 chapters | The chapters associated with the book
 
 `/api/v1/books/<ID>?include=volume,chapters` includes both relationships data directly onto the book resource.
